@@ -38,12 +38,22 @@ const Vibraphone: React.FC = () => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const [sustainActive, setSustainActive] = useState(false);
   const [showInstructions] = useState(false);
-
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const naturalKeyContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     initializeAudio();
   }, [initializeAudio]);
+
+  // Add resize listener
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleInteractionStart = useCallback((note: Note) => {
     if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
@@ -127,7 +137,7 @@ const Vibraphone: React.FC = () => {
   }, [handleInteractionStart, handleInteractionEnd, sustainActive, stopAllNotes, pressedKeys, showInstructions, isAudioInitialized]);
 
   const naturalKeyBaseWidth = "w-16 md:w-20 lg:w-24";
-  const sharpKeyBaseWidth = "w-12 md:w-14 lg:w-16";
+  const sharpKeyBaseWidth = "w-10 md:w-11 lg:w-14";
   const keyLabelSize = "text-[8px] md:text-[10px]";
   const noteNameSize = "text-xs md:text-sm";
 
@@ -154,12 +164,18 @@ const Vibraphone: React.FC = () => {
         const naturalKeyElement = naturalKeyContainerRef.current.children[precedingNaturalNoteIndex] as HTMLElement;
         const naturalKeyRect = naturalKeyElement.getBoundingClientRect();
         const containerRect = naturalKeyContainerRef.current.getBoundingClientRect();
-        const offsetLeft = (naturalKeyRect.right - containerRect.left) - (naturalKeyRect.width * 0.6) + 8;
+
+        // Calculate the width of the gap between keys based on current screen size
+        const isSmallScreen = windowWidth < 640; // sm breakpoint in Tailwind
+        const gapWidth = isSmallScreen ? 4 : 8; // 1rem = 4px for gap-1, 2rem = 8px for gap-2
+
+        // Calculate the offset position considering the gap
+        const offsetLeft = (naturalKeyRect.right - containerRect.left) - (naturalKeyRect.width * 0.4) - (gapWidth / 2);
+
         return {
             position: 'absolute',
             left: `${offsetLeft}px`,
             bottom: 0,
-            transform: 'translateX(-10%)',
             zIndex: 2
         };
     }
