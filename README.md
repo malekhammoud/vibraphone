@@ -1,14 +1,15 @@
-# Run and deploy your AI Studio app
+# Virtual Vibraphone
 
-This contains everything you need to run your app locally.
+An interactive, responsive vibraphone demo built with React and TypeScript. Play notes using your mouse or keyboard, and enjoy realistic audio playback with sustain support.
 
-## Run Locally
+## Features
 
-**Prerequisites:**  Node.js
+- **Playable vibraphone keys**: Click or tap to play notes.
+- **Keyboard support**: Use your computer keyboard to play notes (see keyboard guide in the app).
+- **Sustain pedal**: Hold the spacebar to sustain notes.
+- **Responsive design**: Works well on desktop and mobile devices.
+- **Visual feedback**: Keys highlight when pressed.
+- **Accessible**: Keyboard navigation and ARIA-friendly.
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Demo
+Visit: vibraphone.vercel.app
