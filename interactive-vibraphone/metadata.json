@@ -1,0 +1,5 @@
+{
+  "name": "Interactive Vibraphone",
+  "description": "A virtual vibraphone instrument that can be played using mouse clicks or keyboard. Features sustain pedal functionality and realistic key layout.",
+  "requestFramePermissions": []
+}
